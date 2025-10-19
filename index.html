@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFP projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #00cec9;
+            --dark: #2d3436;
+            --dark-light: #636e72;
+            --light: #dfe6e9;
+            --card-bg: rgba(45, 52, 54, 0.7);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1e23;
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary);
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(26, 30, 35, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bar {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .bar a {
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .bar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: var(--transition);
+        }
+
+        .bar a:hover::after,
+        #active::after {
+            width: 100%;
+        }
+
+        #active {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Баннер */
+        .banner {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 30, 35, 0.8), rgba(26, 30, 35, 0.9));
+            z-index: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .banner h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .banner h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .background img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            animation: zoomEffect 20s infinite alternate;
+        }
+
+        @keyframes zoomEffect {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Секции */
+        section {
+            padding: 5rem 5%;
+        }
+
+        section h1, section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        section h1::after, section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        /* Карточки */
+        .newscards, .project-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .newscard, .projcard {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .newscard:hover, .projcard:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .newscard img, .projcard img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .newscard-content, .projcard-content {
+            padding: 1.5rem;
+        }
+
+        .newscard h2, .projcard h2 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-align: left;
+        }
+
+        .newscard h2::after, .projcard h2::after {
+            display: none;
+        }
+
+        /* Футер */
+        .footer {
+            position: relative;
+            padding: 3rem 5%;
+            text-align: center;
+            background-color: var(--dark);
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        .footer p {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 0.5rem;
+        }
+
+        .backgroundimg img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem 5%;
+            }
+
+            .bar {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: rgba(26, 30, 35, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .bar.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .banner h1 {
+                font-size: 2.5rem;
+            }
+
+            .banner h2 {
+                font-size: 1.2rem;
+            }
+
+            section {
+                padding: 3rem 5%;
+            }
+
+            .newscards, .project-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Дополнительные стили для улучшения UX */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .scroll-top.active {
+            opacity: 1;
+        }
+
+        .scroll-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="logo">
+            <h1>TFP projects</h1>
+        </div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="bar">
+            <a href="index.html" id="active">Главная</a>
+            <a href="rpir/">RP-IR</a>
+            <a href="network/">Социальные-Сети</a>
+        </div>
+    </div>
+
+    <div class="banner">
+        <div class="background">
+            <img src="https://trainfoto.ru/photo/00/84/36/84368.jpg" alt="Фон">
+        </div>
+        <div class="banner-content">
+            <h1>TFP projects</h1>
+            <h2>supported by <a href="group/">tfp group</a></h2>
+        </div>
+    </div>
+
+    <section class="news">
+        <h1>Новости</h1>
+        <div class="newscards">
+            <div class="newscard">
+                <img src="https://trainfoto.ru/photo/00/87/41/87419.jpg" alt="Новость">
+                <div class="newscard-content">
+                    <h2>Мы открыли сайт по новому домену!</h2>
+                    <p>Теперь новые домены - <a href="https://tfp-space.online/">tfp-space.online</a> и <a href="https://tfp-space.ru/">tfp-space.ru</a>.</p>
+                </div>
+            </div>
+            <div class="newscard">
+                <img src="https://skolkovo-resident.ru/wp-content/uploads/2025/04/razrabotka-po-01.jpg" alt="Новость">
+                <div class="newscard-content">
+                    <h2>Новые проекты в разработке</h2>
+                    <p>Скоро мы представим новые интересные проекты для нашего сообщества.</p>
+                </div>
+            </div>
+            <div class="newscard">
+                <img src="https://itspectr.ru/wp-content/uploads/2021/09/datacenter-1024x398.jpg" alt="Новость">
+                <div class="newscard-content">
+                    <h2>Обновление серверов</h2>
+                    <p>Мы обновили оборудование для лучшей производительности наших проектов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects">
+        <h2>Проекты</h2>
+        <div class="project-cards">
+            <div class="projcard">
+                <img src="2025-06-26_16.03.20.png" alt="RP-IR проект">
+                <div class="projcard-content">
+                    <h2>RP-IR</h2>
+                    <p>RolePlay, 1.12.2 forge</p>
+                </div>
+            </div>
+            <div class="projcard">
+                <img src="https://i0.wp.com/tonystudio.ru/load/2012/02/%D0%97%D0%BD%D0%B0%D0%BA-%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D0%B0-267x300.jpg?fit=267%2C300" alt="Новый проект">
+                <div class="projcard-content">
+                    <h2>Скоро новый проект</h2>
+                    <p>Мы работаем над новым захватывающим проектом. Следите за обновлениями!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">
+        <div class="backgroundimg">
+            <img src="https://trainfoto.ru/photo/00/87/45/87452.jpg" alt="Фон футера">
+        </div>
+        <p>&copy; TFP projects & TFP group</p>
+        <p>tfp-space.online / tfp-space.ru</p>
+    </div>
+
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Мобильное меню
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navBar = document.querySelector('.bar');
+        
+        menuToggle.addEventListener('click', () => {
+            navBar.classList.toggle('active');
+            menuToggle.innerHTML = navBar.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Кнопка "Наверх"
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Закрытие меню при клике на ссылку
+        const navLinks = document.querySelectorAll('.bar a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navBar.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+    </script>
+</body>
+</html>
